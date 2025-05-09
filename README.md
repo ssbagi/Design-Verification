@@ -115,16 +115,16 @@ The UVM Testbench Architecture composes of :
         Phases : Total = 20
             a.  Construction Phase  (4 phases)                                                                             
                     (Override the specific function method according to our needs)
-                    - build_phase               : Create an object of a class.
-                    - connect_phase             : Connection of component in TLM.
-                    - end_of_elaboartion_phase  : Adjust an hierarchy of component.
-                    - start_of_simulation       : Configure an environment before applying the stimulus.
+                    - build_phase               : Construct the testbench hierarchy, configure components and instantiate models. Create an object of a class.
+                    - connect_phase             : Connection of TLM ports, adapters and sockets for data flow.
+                    - end_of_elaboartion_phase  : Fine-tune settings and display topology. 
+                    - start_of_simulation       : Configure an environment before applying the stimulus. Set the debug breakpoints and configurations. 
 
-            b.  run_phase (12 phases)           : Task based and consume time.
-                    - reset_phase               : System reset - Bring the system/block or anything to known state. Then start working
+            b.  run_phase (12 phases)           : Task based and consume time. Drive the DUT with stimuli and managed with objections.
+                    - reset_phase               : System reset - Bring the system/block or anything to known state. Then start working.
                         - pre_reset_phase       :
                         - post_reset_phase      :   
-                    - configure_phase           : Memory/Variables/Arrays : initialize them to specific value before start of generating stimulus.
+                    - configure_phase           : Memory/Variables/Arrays : Initialize them to specific value before start of generating stimulus.
                         - pre_configure_phase   :
                         - post_configure_phase  :
                     - main_phase                : Generating stimulus + collecting responses.
@@ -135,10 +135,10 @@ The UVM Testbench Architecture composes of :
                         - post_shutdown_phase   :
             
             c.  cleanup_phase : collect and report data. coverage goals are achieved. (4 phases)
-                    - extract phase             :
-                    - report phase              :
-                    - check phase               :
-                    - final phase               :
+                    - extract phase             :  Gather results and probe the DUT states.
+                    - report phase              :  
+                    - check phase               :  Validate test outcomes and check for unexpected conditions.
+                    - final phase               :  Summarize test results and write logs.
 
 The flow/sequence of execution of phase :
 

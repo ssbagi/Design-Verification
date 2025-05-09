@@ -99,7 +99,9 @@ The UVM Testbench Architecture composes of :
 
 ![image](https://github.com/user-attachments/assets/ffeef25f-5e75-4f78-9146-1e4bcb624f06)
 
-## UVM Phases
+## UVM Common Phases
+The common phases are the set of function and task phases that all uvm_components execute together. All uvm_components are always synchronized with respect to the common phases.
+
         UVM Phases    
             a. Consume time : task                                        
                 - run_phase.
@@ -115,9 +117,9 @@ The UVM Testbench Architecture composes of :
         Phases : Total = 20
             a.  Construction Phase  (4 phases)                                                                             
                     (Override the specific function method according to our needs)
-                    - build_phase               : Construct the testbench hierarchy, configure components and instantiate models. Create an object of a class.
+                    - build_phase               : Create and configure the testbench architecture. Create an object of a class.
                     - connect_phase             : Connection of TLM ports, adapters and sockets for data flow.
-                    - end_of_elaboartion_phase  : Fine-tune settings and display topology. 
+                    - end_of_elaboartion_phase  : Fine-tune testbench.
                     - start_of_simulation       : Configure an environment before applying the stimulus. Set the debug breakpoints and configurations. 
 
             b.  run_phase (12 phases)           : Task based and consume time. Drive the DUT with stimuli and managed with objections.
@@ -135,9 +137,9 @@ The UVM Testbench Architecture composes of :
                         - post_shutdown_phase   :
             
             c.  cleanup_phase : collect and report data. coverage goals are achieved. (4 phases)
-                    - extract phase             :  Gather results and probe the DUT states.
-                    - report phase              :  
-                    - check phase               :  Validate test outcomes and check for unexpected conditions.
+                    - extract phase             :  Extract data from different points of the verification environment.
+                    - report phase              :  Report the results of the test.  
+                    - check phase               :  Check for any unexpected conditions in the verification environment.
                     - final phase               :  Summarize test results and write logs.
 
 The flow/sequence of execution of phase :
@@ -151,6 +153,7 @@ The flow/sequence of execution of phase :
 7. Check Phase.
 8. Report Phase.
 9. Final Phase.
+
 
 ## UVM Adder 
 In order to explain above concepts a simple project Links : 

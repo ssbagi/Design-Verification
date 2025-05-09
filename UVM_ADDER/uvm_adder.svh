@@ -50,6 +50,39 @@ class generator extends uvm_sequence#(transaction);
 endclass
  
 //////// Driver Class derived from uvm_driver. It is dervied from uvm_component. It drives the stimulus to DUT.
+/*
+The driver is responsible for driving the transaction to the DUT. It is a Static Class component.
+In UVM Library we have UVM-18002-2017-11tar\1800.2-2017-1.1\src\comps\uvm_driver.v 
+We have predefined methods in the driver class. We can override the methods as per our requirement. 
+
+In run_phase task we have to drive the transaction to the DUT.
+Format : 
+    tr = transaction::type_id::create("tr");
+    seq_item_port.get_next_item(tr); // Get the transaction from the sequencer.
+    Apply the transaction to DUT using the interface.
+    seq_item_port.item_done(); // Indicate that the transaction is done.
+
+Where is seq_item_port defined ?
+    It is defined in the uvm_driver class. It is a uvm_sequencer port.
+    Derived driver classes should use this port to request items from the sequencer.
+
+    class uvm_driver #(type REQ=uvm_sequence_item,
+                    type RSP=REQ) extends uvm_component;
+        `uvm_component_param_utils(uvm_driver#(REQ,RSP))
+        ....
+        ....
+        Derived driver classes should use this port to request items from the sequencer.
+        uvm_seq_item_pull_port #(REQ, RSP) seq_item_port;
+        ....
+        An Alternate way of sending responses back to the originating sequencer.
+        uvm_analysis_port #(RSP) rsp_port;
+        ....
+        build_phase(uvm_phase phase);
+        ....
+        end_of_elaboration_phase(uvm_phase phase);
+        ....
+    endclass
+*/
 class driver extends uvm_driver #(transaction);
     `uvm_component_utils(driver)
   
@@ -74,13 +107,15 @@ class driver extends uvm_driver #(transaction);
       aif.rst <= 1'b1;
       aif.a   <= 0;
       aif.b   <= 0;
-      repeat(5) @(posedge aif.clk);
+      repeat(5)
+       @(posedge aif.clk);
       aif.rst <= 1'b0; 
       `uvm_info("DRV", "Reset Done", UVM_NONE);
     endtask
     
     // Run Phase is the main task which drives the stimulus to DUT.
     virtual task run_phase(uvm_phase phase);
+     `uvm_info("DRV", "Reset Start", UVM_NONE);
       reset_dut();
       forever begin 
         seq_item_port.get_next_item(data);
@@ -91,7 +126,6 @@ class driver extends uvm_driver #(transaction);
         @(posedge aif.clk);
         @(posedge aif.clk);
       end
-    
   endtask
 endclass
  
@@ -161,6 +195,18 @@ class scoreboard extends uvm_scoreboard;
 endclass
 
 /////// Agent Class derived from uvm_agent. It is used to connect the driver and monitor.
+/*
+Agent 
+    - Driver
+    - Monitor
+    - Sequencer General one.
+
+UVM_ACTIVE : 
+- Create the Object for Driver and Sequencer if it is Active only. This is helpfull when we are connecting multiple things at a time for same things.
+- We can reuse the Agent with different configuration enablement.
+
+connect_phase : Connect the TLM port connection Sequencer to Driver.
+*/
 class agent extends uvm_agent;
   `uvm_component_utils(agent)
   
@@ -188,6 +234,13 @@ class agent extends uvm_agent;
 endclass
  
 /////// Environment Class derived from uvm_env. It is used to connect the scoreboard and agent.
+/*
+Environment 
+    - Agent
+    - Scoreboard
+
+connect_phase : Here TLM connection between Monitor and Scoreboard.
+*/
 class env extends uvm_env;
   `uvm_component_utils(env)
   

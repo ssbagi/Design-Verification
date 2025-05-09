@@ -1,6 +1,6 @@
 # 4 BIT Adder
 
-The Verification of ADDER using UVM Methodology.
+The Verification of Sequential Adder using UVM Methodology.
 
 
 

@@ -270,7 +270,8 @@ module add_tb();
     aif.clk = 0;
     aif.rst = 0;
   end  
-    
+
+  // Genearte the 20ns Clk signal. 10ns High and 10ns Low pulse 50% duty cycle.
   always #10 aif.clk = ~aif.clk;
   
   initial begin

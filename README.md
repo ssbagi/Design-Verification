@@ -87,6 +87,58 @@ The UVM Testbench Architecture composes of :
 
 ![image](https://github.com/user-attachments/assets/ffeef25f-5e75-4f78-9146-1e4bcb624f06)
 
+## UVM Phases
+        UVM Phases    
+            a. Consume time : task                                        
+                - run_phase.
+
+            b. Do not consume time : function
+                - function and super to override the specific method.
+                - configuring the envirnoment.
+                - creating object of class.
+                - applying stimulus to DUT on valid clock edge.
+                - Construction phase.
+                - Cleanup phase.
+
+        Phases : Total = 20
+            a.  Construction Phase  (4 phases)                                                                             
+                    (Override the specific function method according to our needs)
+                    - build_phase               : Create an object of a class.
+                    - connect_phase             : Connection of component in TLM.
+                    - end_of_elaboartion_phase  : Adjust an hierarchy of component.
+                    - start_of_simulation       : Configure an environment before applying the stimulus.
+
+            b.  run_phase (12 phases)           : Task based and consume time.
+                    - reset_phase               : System reset - Bring the system/block or anything to known state. Then start working
+                        - pre_reset_phase       :
+                        - post_reset_phase      :   
+                    - configure_phase           : Memory/Variables/Arrays : initialize them to specific value before start of generating stimulus.
+                        - pre_configure_phase   :
+                        - post_configure_phase  :
+                    - main_phase                : Generating stimulus + collecting responses.
+                        - pre_main_phase        :
+                        - post_main_phase       :
+                    - shutdown_phase            : All the stimuli generated are applied correctly to DUT. 
+                        - pre_shutdown_phase    :
+                        - post_shutdown_phase   :
+            
+            c.  cleanup_phase : collect and report data. coverage goals are achieved. (4 phases)
+                    - extract phase             :
+                    - report phase              :
+                    - check phase               :
+                    - final phase               :
+
+The flow/sequence of execution of phase :
+
+1. Build Phase executed.
+2. Connect Phase executed.
+3. End of Elaboration Phase executed.
+4. Start of Simulation Phase executed.
+5. Run Phase.
+6. Extract Phase.
+7. Check Phase.
+8. Report Phase.
+9. Final Phase.
 
 ## UVM Adder 
 In order to explain above concepts a simple project Link : 

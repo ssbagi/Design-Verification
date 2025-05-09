@@ -117,30 +117,43 @@ The common phases are the set of function and task phases that all uvm_component
         Phases : Total = 20
             a.  Construction Phase  (4 phases)                                                                             
                     (Override the specific function method according to our needs)
-                    - build_phase               : Create and configure the testbench architecture. Create an object of a class.
-                    - connect_phase             : Connection of TLM ports, adapters and sockets for data flow.
-                    - end_of_elaboartion_phase  : Fine-tune testbench.
-                    - start_of_simulation       : Configure an environment before applying the stimulus. Set the debug breakpoints and configurations. 
+                    - build_phase               : Create and configure the testbench architecture. Create an object of a class. Instantiate sub-components. Get configuration values for the component being built. Set configuration values for sub-components.
+                    - connect_phase             : Connection of TLM ports and exports, adapters and sockets for data flow. Establish cross-component connections.
+                    - end_of_elaboartion_phase  : Fine-tune testbench. Display environment topology. Open files. 
+                    - start_of_simulation       : Configure an environment before applying the stimulus. Set the debug breakpoints and configurations. The verification environment has been completely configured and is ready to start.
 
             b.  run_phase (12 phases)           : Task based and consume time. Drive the DUT with stimuli and managed with objections.
                     - reset_phase               : System reset - Bring the system/block or anything to known state. Then start working.
-                        - pre_reset_phase       :
-                        - post_reset_phase      :   
+                        - pre_reset_phase       : Before reset is asserted. Wait for power good. There should not have been any active clock edges before entry into this phase.
+                        - reset_phase           : Reset is asserted. The components must drive their outputs to their specified reset or idle value. Initialize their state variables.
+                        - post_reset_phase      : Reset is deasserted. Components should start behavior appropriate for reset being inactive. After this, the testbench and the DUT are in a known, active state. 
+                        
+                    The testbench and the DUT are in a known, active state
+                    
                     - configure_phase           : Memory/Variables/Arrays : Initialize them to specific value before start of generating stimulus.
-                        - pre_configure_phase   :
-                        - post_configure_phase  :
-                    - main_phase                : Generating stimulus + collecting responses.
-                        - pre_main_phase        :
-                        - post_main_phase       :
-                    - shutdown_phase            : All the stimuli generated are applied correctly to DUT. 
-                        - pre_shutdown_phase    :
-                        - post_shutdown_phase   :
+                        - pre_configure_phase   : Before the DUT is configured by the SW. Indicates that the DUT has been completed reset and is ready to be configured. 
+                        - configure_phase       : The SW configures the DUT. Components required for DUT configuration execute transactions normally. Set signals and program the DUT and memories (e.g. read/write operations and sequences) to match the desired configuration for the test and environment.
+                        - post_configure_phase  : After the SW has configured the DUT. Indicates that the configuration information has been fully uploaded. Wait for configuration information to fully propagate and take effect. Enable the DUT. Sample DUT configuration coverage.
+
+                    The DUT has been fully configured and enabled and is ready to start operating normally.
+                    
+                    - main_phase                :  Generating stimulus + collecting responses.
+                        - pre_main_phase        :  Before the primary test stimulus starts. Wait for components to complete training and rate negotiation. 
+                        - main_phase            :  Primary test stimulus. Components execute transactions normally. Data stimulus sequences are started. Wait for a time-out or certain amount of time, or completion of stimulus sequences.
+                        - post_main_phase       :  After enough of the primary test stimulus. The primary stimulus objective of the test has been met.
+                    
+                    - shutdown_phase            :  All the stimuli generated are applied correctly to DUT. 
+                        - pre_shutdown_phase    :  Before things settle down.
+                        - shutdown_phase        :  Letting things settle down. Wait for all data to be drained out of the DUT. Extract data still buffered in the DUT, usually through read/write operations or sequences.
+                        - post_shutdown_phase   :  After things have settled down. No more “data” stimulus is applied to the DUT.
+
+            All run-time checks have been satisfied. The uvm_run_phase phase is ready to end.
             
             c.  cleanup_phase : collect and report data. coverage goals are achieved. (4 phases)
                     - extract phase             :  Extract data from different points of the verification environment.
-                    - report phase              :  Report the results of the test.  
                     - check phase               :  Check for any unexpected conditions in the verification environment.
-                    - final phase               :  Summarize test results and write logs.
+                    - report phase              :  Report the results of the test.  End of the test.
+                    - final phase               :  Summarize test results and write logs. All test-related activity has completed. Close files. Terminate co-simulation engines.
 
 The flow/sequence of execution of phase :
 

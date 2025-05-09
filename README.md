@@ -23,18 +23,18 @@ For reference of understanidng the Syntax or Usage I refer following links :
 - Link3 : Once we download the UVM library. We get index.html page from UVM-18002-2017-11tar/uvm-1.2/uvm-1.2/docs/html/index.html.
 
 ## UVM Dynamic and Static
-Base Class
-1. uvm_object : Dynamic Class
-    a. uvm_transaction
-    b. uvm_sequence_item
-    c. uvm_sequence
-2. uvm_component : Static Class
-    a. uvm_driver
-    c. uvm_monitor
-    d. uvm_agent
-    e. uvm_scoreboard
-    f. uvm_env
-    g. uvm_test
+**Base Class**
+- **uvm_object**: Dynamic Class
+  - uvm_transaction
+  - uvm_sequence_item
+  - uvm_sequence
+- **uvm_component** : Static Class
+  - uvm_driver
+  - uvm_monitor
+  - uvm_agent
+  - uvm_scoreboard
+  - uvm_env
+  - uvm_test
 
 ## UVM_TREE 
 

@@ -242,24 +242,27 @@ endclass
 
 ///// Testbench Top Module. It is used to create the DUT and connect the DUT to the environment.
 module add_tb();
- 
+
+  //Interface Instantion.
   add_if aif();
-    
+ 
+  //The Sequential Adder DUT Instantion.
+  add dut (.a(aif.a), .b(aif.b), .y(aif.y), .clk(aif.clk), .rst(aif.rst));
+ 
   initial begin
     aif.clk = 0;
     aif.rst = 0;
   end  
     
   always #10 aif.clk = ~aif.clk;
-    
-  add dut (.a(aif.a), .b(aif.b), .y(aif.y), .clk(aif.clk), .rst(aif.rst));
   
   initial begin
     $dumpfile("dump.vcd");
     $dumpvars;
   end
     
-  initial begin  
+  initial begin
+    //The uvm_config_db used to share the Resource. In the DUT we set it and in derived classes like Driver and Monitor we get the resource. 
     uvm_config_db #(virtual add_if)::set(null, "*", "aif", aif);
     run_test("test");
   end

@@ -185,7 +185,6 @@ class agent extends uvm_agent;
     super.connect_phase(phase);
     d.seq_item_port.connect(seq.seq_item_export);
   endfunction
-
 endclass
  
 /////// Environment Class derived from uvm_env. It is used to connect the scoreboard and agent.
@@ -210,7 +209,6 @@ class env extends uvm_env;
     super.connect_phase(phase);
     a.m.send.connect(s.recv);
   endfunction
- 
 endclass
  
 /////// Test Class derived from uvm_test. It is used to create the environment and generator.
@@ -237,8 +235,27 @@ class test extends uvm_test;
     #60;
     phase.drop_objection(this);
   endtask
-
 endclass
+////######################################################################################
+
+//// Interface Class
+interface add_if();
+  logic [3:0] a, b;
+  logic [4:0] y;
+  logic clk, rst;
+endinterface
+
+//// Sequential Adder DUT. 
+module add(input logic [3:0] a, b, output logic [4:0] y, input logic clk, rst);
+  always @(posedge clk or posedge rst) begin
+    if (rst) begin
+      y <= 0;
+    end else begin
+      y <= a + b;
+    end
+  end
+endmodule
+////#####################################################################################
 
 ///// Testbench Top Module. It is used to create the DUT and connect the DUT to the environment.
 module add_tb();

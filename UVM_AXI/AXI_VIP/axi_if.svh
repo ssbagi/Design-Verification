@@ -1,7 +1,10 @@
 /*
 The AXI VIP is not implementing AXI FullMode. Dropped few signals 
 Write Address Channel  : AWLOCK  | AWCACHE  |  AWPROT  |  AWUSER  |  AWQOS  |  AWREGION  |  AWUSER
-Write Data Channel     : 
+Write Data Channel     : WUSER   | WDATA Count
+Response Channel       : 
+Read Address Channel   : ARLOCK  |  ARCACHE  |  ARPROT  |  ARUSER  |  ARQOS  |  ARREGION 
+Read Data Channel      : RUSER
 */
 
 interface axi(input bit ACLK);

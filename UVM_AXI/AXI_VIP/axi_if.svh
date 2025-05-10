@@ -157,8 +157,18 @@ modport S_MON(clocking s_mon);
 Noting down few points : 
 |->       :: Overlapping Assertion on same clk edge.
 |=>       :: Non-Overlapping Assertion. The check happens on next clk edge [ |-> #1  ------> |=> ].
-[->n]     :: Event must happen exactly n cycles later.
-A[->1]    :: Means that A must become high exactly 1 cycle after it starts being monitored.
+
+Go to Repetition
+[->n]                     :: Event must happen exactly n cycles later. Event match the number of times specified not necessarily on continuous clock cycles.
+a |-> ##1 b[->3] ##1 c;   :: The signal “a” is high on given posedge of the clock, the signal “b” should be high for 3 clock cycles followed by “c” should be high after ”b” is high for the third time.
+
+
+Repetiton Operator
+[*n]              :: signal [*n] or sequence [*n]. "n" is the number of repetitions.
+a |-> ##1 b[*3];  :: The signal “a” is high on given posedge of the clock, the signal “b” should be high for 3 consecutive clock cycles.
+
+Nonconsecutive repetition
+signal [=n]       :: It does not require that the last match on the signal repetition happens in the clock cycle before the end of the entire sequence matching.
 
 AXI Rules Links :
 1. ARM : https://developer.arm.com/documentation/dui0534/b/Protocol-Assertions-Descriptions/AXI4-and-AXI4-Lite-protocol-assertion-descriptions/Write-address-channel-checks?lang=en

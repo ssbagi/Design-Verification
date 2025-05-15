@@ -30,7 +30,7 @@ During College days we developed small project on Simple Basic Processor in orde
 
 LAB Documents       : https://github.com/ssbagi/Simple-Processor/tree/main/LAB%20Documents
 
-Design Folder       : 
+Design Folder       : https://github.com/ssbagi/Design-Verification/tree/main/SV_Simple_Processor/Design
 
-Verification Folder : 
+Verification Folder : https://github.com/ssbagi/Design-Verification/tree/main/SV_Simple_Processor/Verification
 

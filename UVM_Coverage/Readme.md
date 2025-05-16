@@ -30,16 +30,17 @@ The Coverage consists of :
 
 ## Examples
 //Example 1
+
 class packet;
-	rand bit[3:0] psel;
-	rand bit[3:0] penable;
+	rand bit\[3:0] psel;
+	rand bit\[3:0] penable;
 endclass
 
 module coverage;
 	packet p = new();
 	covergroup cg;
       C1	: coverpoint p.sel{ bins b1[] = {0,1,2,3,4,8,9,11};}
-      C2	: coverpoint p.penable{bins b2 = {[1:15]};}
+      C2	: coverpoint p.penable{bins b2 = {\[1:15]};}
 	  CROSS : cross C1, C2;
     endgroup
   
@@ -54,8 +55,9 @@ module coverage;
 endmodule
 
 //Example 2
+
 class packet;
-	rand bit[31:0] addr, data;
+	rand bit\[31:0] addr, data;
 endclass
 
 module tb();

@@ -4,6 +4,7 @@
 
   `uvm_analysis_imp_decl(_item)
 
+  //Abstract Class
   virtual class cfs_apb_cover_index_wrapper_base extends uvm_component;
     
     function new(string name = "", uvm_component parent);

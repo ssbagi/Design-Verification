@@ -8,8 +8,8 @@ Understanding the APB Protocol referred the ARM Document and ARM SoC Book. Refer
 3. ARM APB Protocol     : https://developer.arm.com/documentation/ihi0024/latest/
 
 # Udemy Course
-Course Name  : Unveiling UVM in SystemVerilog language: From Building UVM Agents to Functional Coverage and Debugging Techniques
-Link         : https://www.udemy.com/course/design-verification-with-systemverilog-uvm/
+- Course Name  : Unveiling UVM in SystemVerilog language: From Building UVM Agents to Functional Coverage and Debugging Techniques
+- Link         : https://www.udemy.com/course/design-verification-with-systemverilog-uvm/
 
 # APB Protocol 
 - Usage for **low throughput** completer devices.
